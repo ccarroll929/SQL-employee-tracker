@@ -1,12 +1,18 @@
 // Acquiring dependencies
-const db = require('./config/connection.js');
+const sequelize = require('./config/connection.js');
+const { displayTitleText } = require('./lib/titleText.js');
+const selectTask = require('./lib/selectTask.js');
+const express = require('express');
 
-// Start application and handle any errors
-db.connect(function (err) {
-    if (err) throw err;
-    init();
-});
+const app = express();
+const PORT = process.env.PORT || 3306;
 
-function init() {
-    
-}
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+
+// Turn on connection to db and server
+sequelize.sync().then(() => {
+    app.listen(PORT, () => console.log('Now listening'));
+    displayTitleText();
+    selectTask();
+  });
