@@ -1,17 +1,18 @@
 // Acquiring dependencies
-const Sequelize = require('sequelize');
+const mysql = require('mysql2');
 require('dotenv').config();
  
 // Connecting to database with mysql, protecting password with .env file
-const sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
+const db = mysql.createConnection(
+  {
       host: 'localhost',
-      dialect: 'mysql',
-      port: 3306
-    }
-  );
-  
-  module.exports = sequelize;
+      port: '3306',
+      user: 'root',
+      password: process.env.PASSWORD,
+      database: 'employee_db'
+  },
+  // confirm connection to db with yellow console log in terminal
+  console.log('Successfully connected to the employee_db database!')
+); 
+
+module.exports = db;
